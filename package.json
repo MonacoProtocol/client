@@ -21,7 +21,8 @@
   "scripts": {
     "build": "tsc --downlevelIteration",
     "clean": "rm -R ./**/*.d.ts && rm -R ./**/*.js",
-    "generateDocs": "./generate_docs.sh"
+    "generateDocs": "./generate_docs.sh",
+    "publishClient": "npm run build && npm publish --access public && npm run clean"
   },
   "dependencies": {
     "bs58": "^4.0.1",
