@@ -1,0 +1,12 @@
+.idea
+.anchor
+.DS_Store
+target
+bin
+**/*.rs.bk
+node_modules
+tmp
+
+# npm package
+*.js
+*.d.ts
