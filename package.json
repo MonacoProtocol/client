@@ -1,17 +1,17 @@
 {
-  "name": "@betdexlabs/betdex-client",
-  "version": "1.1.2",
+  "name": "@monacoprotocol/client",
+  "version": "0.0.1",
   "description": "Interface package for the Monaco Protocol on Solana",
   "author": "Monaco Protocol",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/BetDexLabs/core.git"
+    "url": "git+https://github.com/MonacoProtocol/client.git"
   },
   "bugs": {
-    "url": "https://github.com/BetDexLabs/core/issues"
+    "url": "https://github.com/MonacoProtocol/client/issues"
   },
-  "homepage": "https://github.com/BetDexLabs/core#readme",
+  "homepage": "https://github.com/MonacoProtocol/client#readme",
   "main": "src/index.js",
   "module": "src/index.js",
   "files": [
