@@ -4,5 +4,6 @@ export * from "./bet_order";
 export * from "./market";
 export * from "./get_account";
 export * from "./market_position";
+export * from "./matching_pool";
 export * from "./wallet_tokens";
 export * from "./protocol";

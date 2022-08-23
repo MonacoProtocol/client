@@ -1,5 +1,5 @@
 {
-  "name": "@monacoprotocol/client",
+  "name": "@monaco-protocol/client",
   "version": "0.0.1",
   "description": "Interface package for the Monaco Protocol on Solana",
   "author": "Monaco Protocol",

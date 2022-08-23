@@ -15,12 +15,30 @@ declare -a endpoints=(
     "wallet_tokens"
 )
 
+declare -a types=(
+    "bet_order"
+    "client"
+    "errors"
+    "get_account"
+    "market_position"
+    "market"
+    "matching_pool"
+    "protocol"
+    "wallet_tokens"
+)
+
 npm run build
 
 for endpoint in ${endpoints[@]}; do
     rm -R docs/${endpoint}.md
     echo "Generating docs for ${endpoint}"
     documentation build --document-exported src/${endpoint}.d.ts -f md >> docs/${endpoint}.md
+done
+
+for type in ${types[@]}; do
+    rm -R docs/types/${type}.md
+    echo "Generating docs for types/${type}"
+    documentation build --document-exported types/${type}.d.ts -f md >> docs/types/${type}.md
 done
 
 npm run clean
