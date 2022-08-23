@@ -34,6 +34,11 @@ export type BetOrderAccounts = {
   betOrderAccounts: GetAccount<BetOrder>[];
 };
 
+export type CreateBetOrderResponse = {
+  betOrderPk: PublicKey;
+  tnxID: string | void;
+};
+
 export type CancelBetOrderResponse = {
   betOrderPk: PublicKey;
   tnxID: string;
