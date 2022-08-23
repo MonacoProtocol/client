@@ -30,9 +30,9 @@ declare -a types=(
 npm run build
 
 for endpoint in ${endpoints[@]}; do
-    rm -R docs/${endpoint}.md
-    echo "Generating docs for ${endpoint}"
-    documentation build --document-exported src/${endpoint}.d.ts -f md >> docs/${endpoint}.md
+    rm -R docs/endpoints/${endpoint}.md
+    echo "Generating docs for endpoints/${endpoint}"
+    documentation build --document-exported src/${endpoint}.d.ts -f md >> docs/endpoints/${endpoint}.md
 done
 
 for type in ${types[@]}; do
