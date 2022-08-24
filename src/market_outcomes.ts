@@ -70,7 +70,9 @@ async function findMarketOutcomeAccountPDAs(
         return await findMarketOutcomePda(program, marketPk, outcome);
       }),
     );
-    response.addResponseData({ marketOutcomePDAs: marketOutcomePDAs });
+    response.addResponseData({
+      marketOutcomePDAs: marketOutcomePDAs.map((marketOutcomePDAResponse) => marketOutcomePDAResponse.data.pda)
+    });
   } catch (e) {
     response.addError(e);
   }
