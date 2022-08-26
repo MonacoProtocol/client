@@ -10,7 +10,7 @@ The package opens up the consumer-facing interactions with the protocol to facil
 - Get market position for wallets
 - Get wallet token balances
 
-The package does not contain functionality to administer markets on the protocol.
+The package does not contain functionality to administer markets on the protocol. Admin functionality will be exposed through a separate package - coming soon.
 
 # Getting Started
 
