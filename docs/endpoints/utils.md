@@ -37,7 +37,7 @@ const odds = 5.9
 const marketAccounts = await getMarketAccounts(program, marketPK, backing, marketOutcomeIndex, odds)
 ```
 
-Returns **[Promise][15]\<ClientResponse\<MarketAccountsForCreateBetOrder>>** 
+Returns **[Promise][15]\<ClientResponse\<MarketAccountsForCreateBetOrder>>**&#x20;
 
 ## uiStakeToInteger
 

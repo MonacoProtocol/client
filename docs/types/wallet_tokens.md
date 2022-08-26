@@ -17,33 +17,33 @@ Type: {tokenMint: PublicKey, associatedTokenAccount: PublicKey}
 
 ### Properties
 
-*   `tokenMint` **PublicKey** 
-*   `associatedTokenAccount` **PublicKey** 
+*   `tokenMint` **PublicKey**&#x20;
+*   `associatedTokenAccount` **PublicKey**&#x20;
 
 ## GetWalletTokenAccountsResponse
 
-Type: {accounts: [Array][9]<[GetWalletTokenAccountResponse][10]>}
+Type: {accounts: [Array][9]<[GetWalletTokenAccountResponse][1]>}
 
 ### Properties
 
-*   `accounts` **[Array][9]<[GetWalletTokenAccountResponse][10]>** 
+*   `accounts` **[Array][9]<[GetWalletTokenAccountResponse][1]>**&#x20;
 
 ## GetWalletBalanceResponse
 
-Type: {token: [string][11], balance: TokenAmount}
+Type: {token: [string][10], balance: TokenAmount}
 
 ### Properties
 
-*   `token` **[string][11]** 
-*   `balance` **TokenAmount** 
+*   `token` **[string][10]**&#x20;
+*   `balance` **TokenAmount**&#x20;
 
 ## GetWalletBalancesResponse
 
-Type: {balances: [Array][9]<[GetWalletBalanceResponse][12]>}
+Type: {balances: [Array][9]<[GetWalletBalanceResponse][5]>}
 
 ### Properties
 
-*   `balances` **[Array][9]<[GetWalletBalanceResponse][12]>** 
+*   `balances` **[Array][9]<[GetWalletBalanceResponse][5]>**&#x20;
 
 [1]: #getwallettokenaccountresponse
 
@@ -63,8 +63,4 @@ Type: {balances: [Array][9]<[GetWalletBalanceResponse][12]>}
 
 [9]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array
 
-[10]: #getwallettokenaccountresponse
-
-[11]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String
-
-[12]: #getwalletbalanceresponse
+[10]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String

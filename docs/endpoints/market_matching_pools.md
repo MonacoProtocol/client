@@ -51,7 +51,7 @@ const marketMatchingPoolPDAs = [marketMatchingPoolPDA1, marketMatchingPoolPDA2]
 const marketMatchingPools = await getMarketMatchingPoolAccounts(program, marketMatchingPoolPDAs)
 ```
 
-Returns **MarketMatchingPoolAccounts** 
+Returns **MarketMatchingPoolAccounts**&#x20;
 
 [1]: #findmarketmatchingpoolpda
 

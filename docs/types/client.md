@@ -18,9 +18,9 @@ Type: {success: [boolean][10], errors: [Array][11]<[object][12]>, data: T}
 
 ### Properties
 
-*   `success` **[boolean][10]** 
-*   `errors` **[Array][11]<[object][12]>** 
-*   `data` **T** 
+*   `success` **[boolean][10]**&#x20;
+*   `errors` **[Array][11]<[object][12]>**&#x20;
+*   `data` **T**&#x20;
 
 ## FindPdaResponse
 
@@ -28,7 +28,7 @@ Type: {pda: PublicKey}
 
 ### Properties
 
-*   `pda` **PublicKey** 
+*   `pda` **PublicKey**&#x20;
 
 ## ResponseFactory
 

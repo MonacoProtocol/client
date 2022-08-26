@@ -9,24 +9,24 @@
 
 ## MarketMatchingPool
 
-Type: {purchaser: PublicKey, liquidityAmount: BN, matchedAmount: BN, betOrders: [Cirque][5]}
+Type: {purchaser: PublicKey, liquidityAmount: BN, matchedAmount: BN, betOrders: [Cirque][3]}
 
 ### Properties
 
-*   `purchaser` **PublicKey** 
-*   `liquidityAmount` **BN** 
-*   `matchedAmount` **BN** 
-*   `betOrders` **[Cirque][5]** 
+*   `purchaser` **PublicKey**&#x20;
+*   `liquidityAmount` **BN**&#x20;
+*   `matchedAmount` **BN**&#x20;
+*   `betOrders` **[Cirque][3]**&#x20;
 
 ## Cirque
 
-Type: {front: [number][6], len: [number][6], items: [Array][7]\<PublicKey>}
+Type: {front: [number][5], len: [number][5], items: [Array][6]\<PublicKey>}
 
 ### Properties
 
-*   `front` **[number][6]** 
-*   `len` **[number][6]** 
-*   `items` **[Array][7]\<PublicKey>** 
+*   `front` **[number][5]**&#x20;
+*   `len` **[number][5]**&#x20;
+*   `items` **[Array][6]\<PublicKey>**&#x20;
 
 [1]: #marketmatchingpool
 
@@ -36,8 +36,6 @@ Type: {front: [number][6], len: [number][6], items: [Array][7]\<PublicKey>}
 
 [4]: #properties-1
 
-[5]: #cirque
+[5]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number
 
-[6]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number
-
-[7]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array
+[6]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array
