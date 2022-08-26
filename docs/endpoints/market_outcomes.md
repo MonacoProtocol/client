@@ -5,7 +5,7 @@
 *   [findMarketOutcomePda][1]
     *   [Parameters][2]
     *   [Examples][3]
-*   [getMarketOutcomeAccounts][4]
+*   [findMarketOutcomePdas][4]
     *   [Parameters][5]
     *   [Examples][6]
 
@@ -29,9 +29,9 @@ const marketOutcomePda = await findMarketOutcomePda(program, marketPK, marketOut
 
 Returns **FindPdaResponse** PDA of the market outcome account
 
-## getMarketOutcomeAccounts
+## findMarketOutcomePdas
 
-For the provided market and market outcomes, return the outcome accounts.
+For the provided market and market outcomes, return the PDAs (publicKeys) of the outcome accounts.
 
 ### Parameters
 
@@ -44,10 +44,10 @@ For the provided market and market outcomes, return the outcome accounts.
 ```javascript
 const marketPk = new PublicKey('7o1PXyYZtBBDFZf9cEhHopn2C9R4G6GaPwFAxaNWM33D')
 const marketOutcomes = ["Monaco", "Protocol"]
-const marketOutcomeAccounts = await getMarketOutcomeAccounts(program, marketPK, marketOutcomes)
+const marketOutcomePdas = await findMarketOutcomePdas(program, marketPK, marketOutcomes)
 ```
 
-Returns **MarketOutcomeAccounts** 
+Returns **GetPublicKeys**&#x20;
 
 [1]: #findmarketoutcomepda
 
@@ -55,7 +55,7 @@ Returns **MarketOutcomeAccounts**
 
 [3]: #examples
 
-[4]: #getmarketoutcomeaccounts
+[4]: #findmarketoutcomepdas
 
 [5]: #parameters-1
 

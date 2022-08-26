@@ -28,71 +28,71 @@ Type: {odds: [number][18], stake: [number][18]}
 
 ### Properties
 
-*   `odds` **[number][18]** 
-*   `stake` **[number][18]** 
+*   `odds` **[number][18]**&#x20;
+*   `stake` **[number][18]**&#x20;
 
 ## BetOrder
 
-Type: {purchaser: PublicKey, market: PublicKey, marketOutcomeIndex: [number][18], backing: [boolean][19], betOrderStatus: [BetOrderStatus][20], stake: BN, voidedStake: BN, expectedOdds: [number][18], creationTimestamp: BN, stakeUnmatched: BN, payout: BN, matches: [Array][21]<[Match][22]>}
+Type: {purchaser: PublicKey, market: PublicKey, marketOutcomeIndex: [number][18], backing: [boolean][19], betOrderStatus: [BetOrderStatus][1], stake: BN, voidedStake: BN, expectedOdds: [number][18], creationTimestamp: BN, stakeUnmatched: BN, payout: BN, matches: [Array][20]<[Match][2]>}
 
 ### Properties
 
-*   `purchaser` **PublicKey** 
-*   `market` **PublicKey** 
-*   `marketOutcomeIndex` **[number][18]** 
-*   `backing` **[boolean][19]** 
-*   `betOrderStatus` **[BetOrderStatus][20]** 
-*   `stake` **BN** 
-*   `voidedStake` **BN** 
-*   `expectedOdds` **[number][18]** 
-*   `creationTimestamp` **BN** 
-*   `stakeUnmatched` **BN** 
-*   `payout` **BN** 
-*   `matches` **[Array][21]<[Match][22]>** 
+*   `purchaser` **PublicKey**&#x20;
+*   `market` **PublicKey**&#x20;
+*   `marketOutcomeIndex` **[number][18]**&#x20;
+*   `backing` **[boolean][19]**&#x20;
+*   `betOrderStatus` **[BetOrderStatus][1]**&#x20;
+*   `stake` **BN**&#x20;
+*   `voidedStake` **BN**&#x20;
+*   `expectedOdds` **[number][18]**&#x20;
+*   `creationTimestamp` **BN**&#x20;
+*   `stakeUnmatched` **BN**&#x20;
+*   `payout` **BN**&#x20;
+*   `matches` **[Array][20]<[Match][2]>**&#x20;
 
 ## BetOrderAccounts
 
-Type: {betOrderAccounts: [Array][21]\<GetAccount<[BetOrder][23]>>}
+Type: {betOrderAccounts: [Array][20]\<GetAccount<[BetOrder][4]>>}
 
 ### Properties
 
-*   `betOrderAccounts` **[Array][21]\<GetAccount<[BetOrder][23]>>** 
+*   `betOrderAccounts` **[Array][20]\<GetAccount<[BetOrder][4]>>**&#x20;
 
 ## CreateBetOrderResponse
 
-Type: {betOrderPk: PublicKey, tnxID: ([string][24] | void)}
+Type: {betOrderPk: PublicKey, tnxID: ([string][21] | void)}
 
 ### Properties
 
-*   `betOrderPk` **PublicKey** 
-*   `tnxID` **([string][24] | void)** 
+*   `betOrderPk` **PublicKey**&#x20;
+*   `tnxID` **([string][21] | void)**&#x20;
 
 ## CancelBetOrderResponse
 
-Type: {betOrderPk: PublicKey, tnxID: [string][24]}
+Type: {betOrderPk: PublicKey, tnxID: [string][21]}
 
 ### Properties
 
-*   `betOrderPk` **PublicKey** 
-*   `tnxID` **[string][24]** 
+*   `betOrderPk` **PublicKey**&#x20;
+*   `tnxID` **[string][21]**&#x20;
 
 ## CancelBetOrdersResponse
 
-Type: {failedCancellationBetOrders: [Array][21]\<PublicKey>, tnxIDs: [Array][21]<[string][24]>}
+Type: {failedCancellationBetOrders: [Array][20]\<PublicKey>, tnxIDs: [Array][20]<[string][21]>}
 
 ### Properties
 
-*   `failedCancellationBetOrders` **[Array][21]\<PublicKey>** 
-*   `tnxIDs` **[Array][21]<[string][24]>** 
+*   `failedCancellationBetOrders` **[Array][20]\<PublicKey>**&#x20;
+*   `tnxIDs` **[Array][20]<[string][21]>**&#x20;
 
 ## betOrderPdaResponse
 
-Type: {betOrderPk: PublicKey, distinctSeed: [string][24]}
+Type: {betOrderPk: PublicKey, distinctSeed: [string][21]}
 
 ### Properties
 
-*   `betOrderPk` **PublicKey** 
-*   `distinctSeed` **[string][24]** 
+*   `betOrderPk` **PublicKey**&#x20;
+*   `distinctSeed` **[string][21]**&#x20;
 
 ## StakeInteger
 
@@ -100,7 +100,7 @@ Type: {stakeInteger: BN}
 
 ### Properties
 
-*   `stakeInteger` **BN** 
+*   `stakeInteger` **BN**&#x20;
 
 [1]: #betorderstatus
 
@@ -140,12 +140,6 @@ Type: {stakeInteger: BN}
 
 [19]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean
 
-[20]: #betorderstatus
+[20]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array
 
-[21]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array
-
-[22]: #match
-
-[23]: #betorder
-
-[24]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String
+[21]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String

@@ -11,12 +11,12 @@ Type: {purchaser: PublicKey, market: PublicKey, marketOutcomeSums: [Array][3]\<B
 
 ### Properties
 
-*   `purchaser` **PublicKey** 
-*   `market` **PublicKey** 
-*   `marketOutcomeSums` **[Array][3]\<BN>** 
-*   `marketOutcomeUnmatchedSums` **[Array][3]\<BN>** 
-*   `offset` **BN** 
-*   `outcomePositions` **[Map][4]<[string][5], BN>** 
+*   `purchaser` **PublicKey**&#x20;
+*   `market` **PublicKey**&#x20;
+*   `marketOutcomeSums` **[Array][3]\<BN>**&#x20;
+*   `marketOutcomeUnmatchedSums` **[Array][3]\<BN>**&#x20;
+*   `offset` **BN**&#x20;
+*   `outcomePositions` **[Map][4]<[string][5], BN>**&#x20;
 
 [1]: #marketposition
 

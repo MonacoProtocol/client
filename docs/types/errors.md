@@ -12,12 +12,12 @@ Type: {errorCode: [string][4], errorMessage: ClientErrors}
 
 ### Properties
 
-*   `errorCode` **[string][4]** 
-*   `errorMessage` **ClientErrors** 
+*   `errorCode` **[string][4]**&#x20;
+*   `errorMessage` **ClientErrors**&#x20;
 
 ## NoCancellableBetOrdersFound
 
-Type: [ClientError][5]
+Type: [ClientError][1]
 
 [1]: #clienterror
 
@@ -26,5 +26,3 @@ Type: [ClientError][5]
 [3]: #nocancellablebetordersfound
 
 [4]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String
-
-[5]: #clienterror

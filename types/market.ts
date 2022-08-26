@@ -56,11 +56,7 @@ export type MarketOutcomeAccount = {
 };
 
 export type MarketOutcomeAccounts = {
-  marketOutcomeAccounts: MarketOutcomeAccount[];
-};
-
-export type MarketOutcomePDAs = {
-  marketOutcomePDAs: PublicKey[];
+  marketOutcomeAccounts: GetAccount<MarketOutcomeAccount>[];
 };
 
 export type MarketAccountsForCreateBetOrder = {

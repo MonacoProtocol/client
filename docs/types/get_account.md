@@ -15,24 +15,24 @@ Type: {publicKey: PublicKey, account: Account}
 
 ### Properties
 
-*   `publicKey` **PublicKey** 
-*   `account` **Account** 
+*   `publicKey` **PublicKey**&#x20;
+*   `account` **Account**&#x20;
 
 ## GetAccount
 
-Type: [AccountData][7]\<Account>
+Type: [AccountData][1]\<Account>
 
 ## GetAccounts
 
-Type: [Array][8]<[AccountData][7]\<Account>>
+Type: [Array][7]<[AccountData][1]\<Account>>
 
 ## GetPublicKeys
 
-Type: {publicKeys: [Array][8]\<PublicKey>}
+Type: {publicKeys: [Array][7]\<PublicKey>}
 
 ### Properties
 
-*   `publicKeys` **[Array][8]\<PublicKey>** 
+*   `publicKeys` **[Array][7]\<PublicKey>**&#x20;
 
 [1]: #accountdata
 
@@ -46,6 +46,4 @@ Type: {publicKeys: [Array][8]\<PublicKey>}
 
 [6]: #properties-1
 
-[7]: #accountdata
-
-[8]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array
+[7]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array

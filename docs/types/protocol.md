@@ -8,6 +8,6 @@
 
 Program addresses for the protocol
 
-*   DEVNET_STABLE: the most stable in-development version of the protocol deployed to `devnet`
+*   DEVNET\_STABLE: the most stable in-development version of the protocol deployed to `devnet`
 
 [1]: #protocoladdresses
