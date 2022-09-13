@@ -5,7 +5,7 @@ export type MarketMatchingPool = {
   purchaser: PublicKey;
   liquidityAmount: BN;
   matchedAmount: BN;
-  betOrders: Cirque;
+  orders: Cirque;
 };
 
 export type Cirque = {

@@ -2,12 +2,37 @@
 
 ### Table of Contents
 
-*   [getMarket][1]
+*   [findMarketPda][1]
     *   [Parameters][2]
     *   [Examples][3]
-*   [getMarkets][4]
+*   [getMarket][4]
     *   [Parameters][5]
     *   [Examples][6]
+*   [getMarkets][7]
+    *   [Parameters][8]
+    *   [Examples][9]
+
+## findMarketPda
+
+For the provided event publicKey, market type and mint publicKey return a Program Derived Address (PDA). This PDA is used for market creation.
+
+### Parameters
+
+*   `program` **Program** {program} anchor program initialized by the consuming client
+*   `eventPk` **PublicKey** {PublicKey} publicKey of an event
+*   `marketType` **MarketType** {MarketType} type of the market
+*   `mintPk` **PublicKey** {PublicKey} publicKey of the currency token
+
+### Examples
+
+```javascript
+const eventPk = new PublicKey('7o1PXyYZtBBDFZf9cEhHopn2C9R4G6GaPwFAxaNWM33D')
+const marketType = "MatchResult"
+const mintPk = new PublicKey('5BZWY6XWPxuWFxs2jagkmUkCoBWmJ6c4YEArr83hYBWk')
+const marketPda = await findMarketPda(program, eventPk, marketType, mintPk)
+```
+
+Returns **FindPdaResponse** publicKey (PDA) and the seed used to generate it
 
 ## getMarket
 
@@ -34,7 +59,7 @@ For the provided list of market publicKeys, get the market account details for e
 ### Parameters
 
 *   `program` **Program** {program} anchor program initialized by the consuming client
-*   `marketPks` **[Array][7]\<PublicKey>** {PublicKey} publicKey of a market
+*   `marketPks` **[Array][10]\<PublicKey>** {PublicKey} publicKey of a market
 
 ### Examples
 
@@ -47,16 +72,22 @@ const markets = await getMarkets(program, marketPks)
 
 Returns **MarketAccounts** list of market account details
 
-[1]: #getmarket
+[1]: #findmarketpda
 
 [2]: #parameters
 
 [3]: #examples
 
-[4]: #getmarkets
+[4]: #getmarket
 
 [5]: #parameters-1
 
 [6]: #examples-1
 
-[7]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array
+[7]: #getmarkets
+
+[8]: #parameters-2
+
+[9]: #examples-2
+
+[10]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array

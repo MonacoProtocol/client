@@ -7,41 +7,41 @@ import {
 import bs58 from "bs58";
 import { GetAccount } from "../types/get_account";
 import {
-  BetOrder,
-  BetOrderStatus,
+  Order,
+  OrderStatus,
   ClientResponse,
   ResponseFactory,
   GetPublicKeys,
-  BetOrderAccounts,
+  OrderAccounts,
 } from "../types";
 import { Markets } from "./market_query";
 
 /**
- * Base betOrder query builder allowing to filter by set fields. Returns publicKeys or accounts mapped to those publicKeys; filtered to remove any accounts closed during the query process.
+ * Base order query builder allowing to filter by set fields. Returns publicKeys or accounts mapped to those publicKeys; filtered to remove any accounts closed during the query process.
  *
  * Some preset queries are available for convenience:
- * - getBetOrdersByStatusForProviderWallet
- * - getBetOrdersByMarketForProviderWallet
- * - getBetOrdersByEventForProviderWallet
+ * - getOrdersByStatusForProviderWallet
+ * - getOrdersByMarketForProviderWallet
+ * - getOrdersByEventForProviderWallet
  *
  * @param program {program} anchor program initialized by the consuming client
- * @returns {GetPublicKeys || BetOrderAccounts} publicKeys or accounts meeting query requirements
+ * @returns {GetPublicKeys || OrderAccounts} publicKeys or accounts meeting query requirements
  *
  * @example
  *
  * const marketPk = new PublicKey('7o1PXyYZtBBDFZf9cEhHopn2C9R4G6GaPwFAxaNWM33D')
  * const purchaserPk = new PublicKey('5BZWY6XWPxuWFxs2jagkmUkCoBWmJ6c4YEArr83hYBWk')
- * const betOrders = await BetOrders.betOrderQuery(program)
+ * const orders = await Orders.orderQuery(program)
  *       .filterByMarket(marketPk)
  *       .filterByPurchaser(purchaserPk)
- *       .filterByStatus(BetOrderStatus.Open)
+ *       .filterByStatus(OrderStatus.Open)
  *       .fetch();
  *
- * // Returns all open betOrder accounts for the specified market and purchasing wallet.
+ * // Returns all open order accounts for the specified market and purchasing wallet.
  */
-export class BetOrders {
-  public static betOrderQuery(program: Program) {
-    return new BetOrders(program);
+export class Orders {
+  public static orderQuery(program: Program) {
+    return new Orders(program);
   }
 
   private program: Program;
@@ -52,22 +52,22 @@ export class BetOrders {
     this._filter.push(
       this.toFilter(
         0,
-        bs58.encode(BorshAccountsCoder.accountDiscriminator("bet_order")),
+        bs58.encode(BorshAccountsCoder.accountDiscriminator("order")),
       ),
     );
   }
 
-  filterByPurchaser(purchaser: PublicKey): BetOrders {
+  filterByPurchaser(purchaser: PublicKey): Orders {
     this._filter.push(this.toFilter(8, purchaser.toBase58()));
     return this;
   }
 
-  filterByMarket(market: PublicKey): BetOrders {
+  filterByMarket(market: PublicKey): Orders {
     this._filter.push(this.toFilter(8 + 32, market.toBase58()));
     return this;
   }
 
-  filterByStatus(status: BetOrderStatus): BetOrders {
+  filterByStatus(status: OrderStatus): Orders {
     this._filter.push(
       this.toFilter(8 + 32 + 32 + 2 + 1, bs58.encode([status])),
     );
@@ -80,7 +80,7 @@ export class BetOrders {
 
   /**
    *
-   * @returns {GetPublicKeys} list of all fetched betOrder publicKeys
+   * @returns {GetPublicKeys} list of all fetched order publicKeys
    */
   async fetchPublicKeys(): Promise<ClientResponse<GetPublicKeys>> {
     const response = new ResponseFactory({} as GetPublicKeys);
@@ -107,10 +107,10 @@ export class BetOrders {
 
   /**
    *
-   * @returns {BetOrderAccounts} fetched betOrder accounts mapped to their publicKey
+   * @returns {OrderAccounts} fetched order accounts mapped to their publicKey
    */
-  async fetch(): Promise<ClientResponse<BetOrderAccounts>> {
-    const response = new ResponseFactory({} as BetOrderAccounts);
+  async fetch(): Promise<ClientResponse<OrderAccounts>> {
+    const response = new ResponseFactory({} as OrderAccounts);
     const accountPublicKeys = await this.fetchPublicKeys();
 
     if (!accountPublicKeys.success) {
@@ -119,11 +119,10 @@ export class BetOrders {
     }
 
     try {
-      const accountsWithData =
-        (await this.program.account.betOrder.fetchMultiple(
-          accountPublicKeys.data.publicKeys,
-          "confirmed",
-        )) as BetOrder[];
+      const accountsWithData = (await this.program.account.order.fetchMultiple(
+        accountPublicKeys.data.publicKeys,
+        "confirmed",
+      )) as Order[];
 
       const result = accountPublicKeys.data.publicKeys
         .map((accountPublicKey, i) => {
@@ -132,7 +131,7 @@ export class BetOrders {
         .filter((o) => o.account);
 
       response.addResponseData({
-        betOrderAccounts: result,
+        orderAccounts: result,
       });
     } catch (e) {
       response.addError(e);
@@ -143,93 +142,93 @@ export class BetOrders {
 }
 
 /**
- * Get all betOrders owned by the program provider wallet - by betOrder status
+ * Get all orders owned by the program provider wallet - by order status
  *
  * @param program {program} anchor program initialized by the consuming client
- * @param status {betOrderStatus} status of the betOrder, provided by the BetOrderStatus enum
- * @returns {BetOrderAccounts} fetched betOrder accounts mapped to their publicKey
+ * @param status {orderStatus} status of the order, provided by the orderStatus enum
+ * @returns {OrderAccounts} fetched order accounts mapped to their publicKey
  *
  * @example
- * const status = BetOrderStatus.Open
- * const betOrders = await getBetOrdersByStatusForProviderWallet(program, status)
+ * const status = OrderStatus.Open
+ * const orders = await getOrdersByStatusForProviderWallet(program, status)
  */
-export async function getBetOrdersByStatusForProviderWallet(
+export async function getOrdersByStatusForProviderWallet(
   program: Program,
-  status: BetOrderStatus,
-): Promise<ClientResponse<BetOrderAccounts>> {
+  status: OrderStatus,
+): Promise<ClientResponse<OrderAccounts>> {
   const provider = program.provider as AnchorProvider;
-  return await BetOrders.betOrderQuery(program)
+  return await Orders.orderQuery(program)
     .filterByPurchaser(provider.wallet.publicKey)
     .filterByStatus(status)
     .fetch();
 }
 
 /**
- * Get all betOrders owned by the program provider wallet - for the given market account
+ * Get all orders owned by the program provider wallet - for the given market account
  *
  * @param program {program} anchor program initialized by the consuming client
  * @param marketPk {PublicKey} publicKey of the market
- * @returns {BetOrderAccounts} fetched betOrder accounts mapped to their publicKey
+ * @returns {OrderAccounts} fetched order accounts mapped to their publicKey
  *
  * @example
  * const marketPk = new PublicKey("5m5RyK82FQKNzMg3eDT5GY5KpbJQJhD4RhBHSG2ux4sk")
- * const betOrders = await getBetOrdersByMarketForProviderWallet(program, marketPk)
+ * const orders = await getOrdersByMarketForProviderWallet(program, marketPk)
  */
-export async function getBetOrdersByMarketForProviderWallet(
+export async function getOrdersByMarketForProviderWallet(
   program: Program,
   marketPk: PublicKey,
-): Promise<ClientResponse<BetOrderAccounts>> {
+): Promise<ClientResponse<OrderAccounts>> {
   const provider = program.provider as AnchorProvider;
-  return await BetOrders.betOrderQuery(program)
+  return await Orders.orderQuery(program)
     .filterByPurchaser(provider.wallet.publicKey)
     .filterByMarket(marketPk)
     .fetch();
 }
 /**
- * Get all cancellable betOrders owned by the program provider for the given market. BetOrders can be cancelled if they:
+ * Get all cancellable orders owned by the program provider for the given market. Orders can be cancelled if they:
  *
- * - Have the status of BetOrderStatus.OPEN
+ * - Have the status of OrderStatus.OPEN
  * - Are partially matched (only unmatched stake will be cancelled)
  *
  * @param program {program} anchor program initialized by the consuming client
  * @param marketPk {PublicKey} publicKey of the market
- * @returns {BetOrderAccounts} fetched betOrder accounts mapped to their publicKey
+ * @returns {OrderAccounts} fetched order accounts mapped to their publicKey
  *
  * @example
  * const marketPk = new PublicKey("5m5RyK82FQKNzMg3eDT5GY5KpbJQJhD4RhBHSG2ux4sk")
- * const betOrders = await getCancellableBetOrdersByMarketForProviderWallet(program, marketPk)
+ * const orders = await getCancellableOrdersByMarketForProviderWallet(program, marketPk)
  */
-export async function getCancellableBetOrdersByMarketForProviderWallet(
+export async function getCancellableOrdersByMarketForProviderWallet(
   program: Program,
   marketPk: PublicKey,
-): Promise<ClientResponse<BetOrderAccounts>> {
+): Promise<ClientResponse<OrderAccounts>> {
   const provider = program.provider as AnchorProvider;
-  const betOrders = await BetOrders.betOrderQuery(program)
+  const orders = await Orders.orderQuery(program)
     .filterByPurchaser(provider.wallet.publicKey)
     .filterByMarket(marketPk)
     .fetch();
-  betOrders.data.betOrderAccounts = betOrders.data.betOrderAccounts.filter(
-    (betOrder) => betOrder.account.stakeUnmatched.toNumber() > 0,
+  orders.data.orderAccounts = orders.data.orderAccounts.filter(
+    (order) => order.account.stakeUnmatched.toNumber() > 0,
   );
-  return betOrders;
+  return orders;
 }
 
 /**
- * Get all betOrders owned by the program provider wallet - for all markets associated with the given event account
+ * Get all orders owned by the program provider wallet - for all markets associated with the given event account
  *
  * @param program {program} anchor program initialized by the consuming client
  * @param eventPk {PublicKey} publicKey of the event
- * @returns {BetOrderAccounts} fetched betOrder accounts mapped to their publicKey
+ * @returns {OrderAccounts} fetched order accounts mapped to their publicKey
  *
  * @example
  * const eventPk = new PublicKey("5gHfsqpTw6HQwQBc94mXEoFFrD9muKNmAnchJ376PRE4")
- * const betOrders = await getBetOrdersByEventForProviderWallet(program, eventPk)
+ * const orders = await getOrdersByEventForProviderWallet(program, eventPk)
  */
-export async function getBetOrdersByEventForProviderWallet(
+export async function getOrdersByEventForProviderWallet(
   program: Program,
   eventPk: PublicKey,
-): Promise<ClientResponse<BetOrderAccounts>> {
-  const response = new ResponseFactory({} as BetOrderAccounts);
+): Promise<ClientResponse<OrderAccounts>> {
+  const response = new ResponseFactory({} as OrderAccounts);
   const provider = program.provider as AnchorProvider;
   const marketPks = await Markets.marketQuery(program)
     .filterByEvent(eventPk)
@@ -240,24 +239,24 @@ export async function getBetOrdersByEventForProviderWallet(
     return response.body;
   }
 
-  const betOrderAccounts = [] as GetAccount<BetOrder>[];
+  const orderAccounts = [] as GetAccount<Order>[];
 
   await Promise.all(
     marketPks.data.markets.map(async function (market) {
-      const betOrderResponse = await BetOrders.betOrderQuery(program)
+      const orderResponse = await Orders.orderQuery(program)
         .filterByPurchaser(provider.wallet.publicKey)
         .filterByMarket(market.publicKey)
         .fetch();
-      if (betOrderResponse.success) {
-        betOrderAccounts.push(...betOrderResponse.data.betOrderAccounts);
+      if (orderResponse.success) {
+        orderAccounts.push(...orderResponse.data.orderAccounts);
       } else {
-        response.addErrors(betOrderResponse.errors);
+        response.addErrors(orderResponse.errors);
       }
     }),
   );
 
   response.addResponseData({
-    betOrderAccounts: betOrderAccounts,
+    orderAccounts: orderAccounts,
   });
   return response.body;
 }

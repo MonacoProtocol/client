@@ -11,24 +11,24 @@
 
 ## findMarketMatchingPoolPda
 
-For the provided market publicKey, outcome, odds and backing, return the PDA (publicKey) of the matching account.
+For the provided market publicKey, outcome, price and forOutcome, return the PDA (publicKey) of the matching account.
 
 ### Parameters
 
 *   `program` **Program** {program} anchor program initialized by the consuming client
 *   `marketPk` **PublicKey** {PublicKey} publicKey of a market
-*   `marketOutcome` **[string][7]** {string} string representation of a market outcome
-*   `odds` **[number][8]** {number} odds for the matching pool
-*   `backing` **[boolean][9]** {boolean} bool representing backing or laying a market outcome
+*   `marketOutcomeIndex` **[number][7]** {number} index representing a market outcome
+*   `price` **[number][7]** {number} price for the matching pool
+*   `forOutcome` **[boolean][8]** {boolean} bool representing for or against a market outcome
 
 ### Examples
 
 ```javascript
 const marketPk = new PublicKey('7o1PXyYZtBBDFZf9cEhHopn2C9R4G6GaPwFAxaNWM33D')
-const marketOutcome = "Monaco"
-const odds = 1.5
-const backing = true
-const marketMatchingPoolPda = await findMarketMatchingPoolPda(program, marketPK, marketOutcome, odds, backing)
+const marketOutcomeIndex = 0
+const price = 1.5
+const forOutcome = true
+const marketMatchingPoolPda = await findMarketMatchingPoolPda(program, marketPK, marketOutcomeIndex, price, forOutcome)
 ```
 
 Returns **FindPdaResponse** PDA of the market matching pool account
@@ -40,7 +40,7 @@ For the provided marketMatchingPool PDAs, return the market matching pool accoun
 ### Parameters
 
 *   `program` **Program** {program} anchor program initialized by the consuming client
-*   `marketMatchingPoolPDAs` **[Array][10]\<PublicKey>** {PublicKey\[]} PDAs of market matching pools
+*   `marketMatchingPoolPDAs` **[Array][9]\<PublicKey>** {PublicKey\[]} PDAs of market matching pools
 
 ### Examples
 
@@ -65,10 +65,8 @@ Returns **MarketMatchingPoolAccounts**&#x20;
 
 [6]: #examples-1
 
-[7]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String
+[7]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number
 
-[8]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number
+[8]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean
 
-[9]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean
-
-[10]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array
+[9]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array

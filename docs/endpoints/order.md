@@ -2,16 +2,16 @@
 
 ### Table of Contents
 
-*   [findBetOrderPda][1]
+*   [findOrderPda][1]
     *   [Parameters][2]
     *   [Examples][3]
-*   [getBetOrder][4]
+*   [getOrder][4]
     *   [Parameters][5]
     *   [Examples][6]
 
-## findBetOrderPda
+## findOrderPda
 
-For the provided market publicKey and wallet publicKey: add a date seed and return a Program Derived Address (PDA) and the seed used. This PDA is used for betOrder creation.
+For the provided market publicKey and wallet publicKey: add a date seed and return a Program Derived Address (PDA) and the seed used. This PDA is used for order creation.
 
 ### Parameters
 
@@ -24,36 +24,36 @@ For the provided market publicKey and wallet publicKey: add a date seed and retu
 ```javascript
 const marketPk = new PublicKey('7o1PXyYZtBBDFZf9cEhHopn2C9R4G6GaPwFAxaNWM33D')
 const purchaserPk = new PublicKey('5BZWY6XWPxuWFxs2jagkmUkCoBWmJ6c4YEArr83hYBWk')
-const BetOrderPda = await findBetOrderPda(program, marketPK, purchaserPk)
+const OrderPda = await findOrderPda(program, marketPK, purchaserPk)
 ```
 
-Returns **betOrderPdaResponse** publicKey (PDA) and the seed used to generate it
+Returns **orderPdaResponse** publicKey (PDA) and the seed used to generate it
 
-## getBetOrder
+## getOrder
 
-For the provided betOrder publicKey, get the betOrder account.
+For the provided order publicKey, get the order account.
 
 ### Parameters
 
 *   `program` **Program** {program} anchor program initialized by the consuming client
-*   `betOrderPk` **PublicKey** {PublicKey} publicKey of a betOrder
+*   `orderPk` **PublicKey** {PublicKey} publicKey of an order
 
 ### Examples
 
 ```javascript
-const betOrderPk = new PublicKey('Fy7WiqBy6MuWfnVjiPE8HQqkeLnyaLwBsk8cyyJ5WD8X')
-const BetOrder = await getBetOrder(program, betOrderPk)
+const orderPk = new PublicKey('Fy7WiqBy6MuWfnVjiPE8HQqkeLnyaLwBsk8cyyJ5WD8X')
+const Order = await getOrder(program, orderPk)
 ```
 
-Returns **BetOrder** betOrder account details
+Returns **Order** order account details
 
-[1]: #findbetorderpda
+[1]: #findorderpda
 
 [2]: #parameters
 
 [3]: #examples
 
-[4]: #getbetorder
+[4]: #getorder
 
 [5]: #parameters-1
 

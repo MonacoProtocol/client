@@ -12,34 +12,34 @@ import {
   FindPdaResponse,
   StakeInteger,
 } from "../types";
-import { MarketAccountsForCreateBetOrder } from "../types";
+import { MarketAccountsForCreateOrder } from "../types";
 
 /**
- * For the provided market, outcome, odds and backing condition - return all the necessary PDAs and account information required for betOrder creation.
+ * For the provided market, outcome, price and forOutcome condition - return all the necessary PDAs and account information required for order creation.
  *
  * @param program {program} anchor program initialized by the consuming client
  * @param marketPk {PublicKey} publicKey of a market
- * @param backing {boolean} bool representing backing or laying a market
+ * @param forOutcome {boolean} bool representing for or against a market outcome
  * @param marketOutcomeIndex {number} index representing the chosen outcome of a market
- * @param odds {number} odds for betOrder
+ * @param price {number} price for order
  * @returns {PublicKey, MarketAccount} publicKey PDAs for the escrow, marketOutcome, outcomePool and marketPosition accounts as well as the full marketAccount.
  *
  * @example
  *
  * const marketPk = new PublicKey('7o1PXyYZtBBDFZf9cEhHopn2C9R4G6GaPwFAxaNWM33D')
- * const backing = true
+ * const forOutcome = true
  * const marketOutcomeIndex = 0
- * const odds = 5.9
- * const marketAccounts = await getMarketAccounts(program, marketPK, backing, marketOutcomeIndex, odds)
+ * const price = 5.9
+ * const marketAccounts = await getMarketAccounts(program, marketPK, forOutcome, marketOutcomeIndex, price)
  */
 export async function getMarketAccounts(
   program: Program,
   marketPk: PublicKey,
-  backing: boolean,
+  forOutcome: boolean,
   marketOutcomeIndex: number,
-  odds: number,
-): Promise<ClientResponse<MarketAccountsForCreateBetOrder>> {
-  const response = new ResponseFactory({} as MarketAccountsForCreateBetOrder);
+  price: number,
+): Promise<ClientResponse<MarketAccountsForCreateOrder>> {
+  const response = new ResponseFactory({} as MarketAccountsForCreateOrder);
   const market = await getMarket(program, marketPk);
 
   if (!market.success) {
@@ -47,18 +47,17 @@ export async function getMarketAccounts(
     return response.body;
   }
 
-  const outcomes = market.data.account.marketOutcomes;
   const provider = program.provider as AnchorProvider;
 
   const [marketOutcomePda, marketOutcomePoolPda, marketPositionPda, escrowPda] =
     await Promise.all([
-      findMarketOutcomePda(program, marketPk, outcomes[marketOutcomeIndex]),
+      findMarketOutcomePda(program, marketPk, marketOutcomeIndex),
       findMarketMatchingPoolPda(
         program,
         marketPk,
-        outcomes[marketOutcomeIndex],
-        odds,
-        backing,
+        marketOutcomeIndex,
+        price,
+        forOutcome,
       ),
       findMarketPositionPda(program, marketPk, provider.wallet.publicKey),
       findEscrowPda(program, marketPk),

@@ -11,10 +11,10 @@
 For the provided market publicKey return:
 
 *   The market account
-*   The pending betOrders for the market (unmatched/partially matched orders)
+*   The pending orders for the market (unmatched/partially matched orders)
 *   The market prices for the market
 
-Market prices are all unique pending betOrder combinations (OUTCOME, ODDS, BACKING) and their corresponding matching pool accounts.
+Market prices are all unique pending order combinations (OUTCOME, PRICE, FOR) and their corresponding matching pool accounts.
 
 ### Parameters
 
@@ -28,7 +28,7 @@ const marketPk = new PublicKey('7o1PXyYZtBBDFZf9cEhHopn2C9R4G6GaPwFAxaNWM33D')
 const marketPrices = await getMarketPrices(program, marketPK)
 ```
 
-Returns **MarketPrices** Market account, pending betOrders and marketPrices with matching pools
+Returns **MarketPrices** Market account, pending orders and marketPrices with matching pools
 
 [1]: #getmarketprices
 

@@ -9,38 +9,38 @@ import {
 import { FindPdaResponse } from "../types";
 
 /**
- * For the provided market publicKey, outcome, odds and backing, return the PDA (publicKey) of the matching account.
+ * For the provided market publicKey, outcome, price and forOutcome, return the PDA (publicKey) of the matching account.
  *
  * @param program {program} anchor program initialized by the consuming client
  * @param marketPk {PublicKey} publicKey of a market
- * @param marketOutcome {string} string representation of a market outcome
- * @param odds {number} odds for the matching pool
- * @param backing {boolean} bool representing backing or laying a market outcome
+ * @param marketOutcomeIndex {number} index representing a market outcome
+ * @param price {number} price for the matching pool
+ * @param forOutcome {boolean} bool representing for or against a market outcome
  * @returns {FindPdaResponse} PDA of the market matching pool account
  *
  * @example
  *
  * const marketPk = new PublicKey('7o1PXyYZtBBDFZf9cEhHopn2C9R4G6GaPwFAxaNWM33D')
- * const marketOutcome = "Monaco"
- * const odds = 1.5
- * const backing = true
- * const marketMatchingPoolPda = await findMarketMatchingPoolPda(program, marketPK, marketOutcome, odds, backing)
+ * const marketOutcomeIndex = 0
+ * const price = 1.5
+ * const forOutcome = true
+ * const marketMatchingPoolPda = await findMarketMatchingPoolPda(program, marketPK, marketOutcomeIndex, price, forOutcome)
  */
 export async function findMarketMatchingPoolPda(
   program: Program,
   marketPk: PublicKey,
-  marketOutcome: string,
-  odds: number,
-  backing: boolean,
+  marketOutcomeIndex: number,
+  price: number,
+  forOutcome: boolean,
 ): Promise<ClientResponse<FindPdaResponse>> {
   const response = new ResponseFactory({} as FindPdaResponse);
-  const oddsDecimalPlaces = 3;
+  const priceDecimalPlaces = 3;
   const [pda, _] = await PublicKey.findProgramAddress(
     [
       marketPk.toBuffer(),
-      Buffer.from(marketOutcome),
-      Buffer.from(odds.toFixed(oddsDecimalPlaces).toString()),
-      Buffer.from(backing.toString()),
+      Buffer.from(marketOutcomeIndex.toString()),
+      Buffer.from(price.toFixed(priceDecimalPlaces).toString()),
+      Buffer.from(forOutcome.toString()),
     ],
     program.programId,
   );

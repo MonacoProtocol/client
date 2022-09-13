@@ -16,7 +16,7 @@ export type FindPdaResponse = {
  * @param opts.responseData empty object set to the response type
  *
  * @example
- * const response = new ResponseFactory({} as BetOrderAccounts);
+ * const response = new ResponseFactory({} as OrderAccounts);
  * try {
  *    performAction()
  * }
@@ -29,7 +29,7 @@ export type FindPdaResponse = {
  *    return response.body
  * }
  * response.addResponseData({
- *     betOrderPk: new PublicKey("Fy7WiqBy6MuWfnVjiPE8HQqkeLnyaLwBsk8cyyJ5WD8X")
+ *     orderPk: new PublicKey("Fy7WiqBy6MuWfnVjiPE8HQqkeLnyaLwBsk8cyyJ5WD8X")
  * })
  * return response.body
  */

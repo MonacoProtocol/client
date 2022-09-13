@@ -6,8 +6,8 @@
 
 ## ProtocolAddresses
 
-Program addresses for the protocol
+Program addresses for the monaco\_protocol
 
-*   DEVNET\_STABLE: the most stable in-development version of the protocol deployed to `devnet`
+*   DEVNET\_STABLE: the most stable in-development version of the monaco\_protocol deployed to `devnet`
 
 [1]: #protocoladdresses

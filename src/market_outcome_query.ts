@@ -81,7 +81,7 @@ export class MarketOutcomes {
 
   /**
    *
-   * @returns {MarketAccounts} fetched market outcome accounts mapped to their publicKey
+   * @returns {MarketOutcomeAccounts} fetched market outcome accounts mapped to their publicKey
    */
   async fetch(): Promise<ClientResponse<MarketOutcomeAccounts>> {
     const response = new ResponseFactory({} as MarketOutcomeAccounts);
@@ -118,11 +118,11 @@ export class MarketOutcomes {
  *
  * @param program {program} anchor program initialized by the consuming client
  * @param marketPk {PublicKey} publicKey of the market
- * @returns { MarketAccounts } fetched market accounts mapped to their publicKey
+ * @returns { MarketOutcomeAccounts } fetched market outcome accounts mapped to their publicKey
  *
  * @example
  * const marketPk = new PublicKey('7o1PXyYZtBBDFZf9cEhHopn2C9R4G6GaPwFAxaNWM33D')
- * const marketOutcomes = await (program, marketPk)
+ * const marketOutcomes = await getMarketOutcomesByMarket(program, marketPk)
  */
 export async function getMarketOutcomesByMarket(
   program: Program,
@@ -131,4 +131,38 @@ export async function getMarketOutcomesByMarket(
   return await MarketOutcomes.marketOutcomeQuery(program)
     .filterByMarket(marketPk)
     .fetch();
+}
+
+/**
+ * Get all market outcome titles for the provided market.
+ *
+ * @param program {program} anchor program initialized by the consuming client
+ * @param marketPk {PublicKey} publicKey of the market
+ * @returns { string } fetched market outcome titles array ordered by index
+ *
+ * @example
+ * const marketPk = new PublicKey('7o1PXyYZtBBDFZf9cEhHopn2C9R4G6GaPwFAxaNWM33D')
+ * const marketOutcomeTitles = await getMarketOutcomeTitlesByMarket(program, marketPk)
+ */
+export async function getMarketOutcomeTitlesByMarket(
+  program: Program,
+  marketPk: PublicKey,
+): Promise<string[]> {
+  const result = [] as string[];
+
+  const marketOutcomesResponse = await MarketOutcomes.marketOutcomeQuery(
+    program,
+  )
+    .filterByMarket(marketPk)
+    .fetch();
+
+  const marketOutcomeAccounts =
+    marketOutcomesResponse.data.marketOutcomeAccounts;
+  marketOutcomeAccounts.forEach(
+    (marketOutcomeAccount) =>
+      (result[marketOutcomeAccount.account.index] =
+        marketOutcomeAccount.account.title),
+  );
+
+  return result;
 }

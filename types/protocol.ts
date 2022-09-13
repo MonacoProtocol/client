@@ -1,7 +1,7 @@
 /**
- * Program addresses for the protocol
+ * Program addresses for the monaco_protocol
  *
- * - DEVNET_STABLE: the most stable in-development version of the protocol deployed to `devnet`
+ * - DEVNET_STABLE: the most stable in-development version of the monaco_protocol deployed to `devnet`
  *
  */
 export enum ProtocolAddresses {

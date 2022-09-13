@@ -1,5 +1,5 @@
 enum ClientErrors {
-  M001 = "No cancellable bet orders found.",
+  M001 = "No cancellable orders found.",
 }
 
 export type ClientError = {
@@ -7,7 +7,7 @@ export type ClientError = {
   errorMessage: ClientErrors;
 };
 
-export const NoCancellableBetOrdersFound: ClientError = {
+export const NoCancellableOrdersFound: ClientError = {
   errorCode: "M001",
   errorMessage: ClientErrors.M001,
 };

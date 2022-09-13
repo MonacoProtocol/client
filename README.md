@@ -5,8 +5,8 @@ NPM package to interface with the Monaco Protocol program on the [Solana network
 The package opens up the consumer-facing interactions with the protocol to facilitate exchanged-based applications including:
 
 - Get markets by status/event/wagering token
-- Place bet orders for markets
-- Cancel bet orders
+- Place orders for markets
+- Cancel orders
 - Get market position for wallets
 - Get wallet token balances
 
@@ -27,7 +27,6 @@ Supplementary documentation can be accessed from the [Monaco Protocol SDK](https
 Docs are generated using [documentationjs](https://github.com/documentationjs/documentation). 
 
 ```
-npm install -g documentation
 npm run generateDocs
 ```
 
@@ -43,11 +42,11 @@ export type ClientResponse<T> = {
 };
 ```
 
-Each endpoint defines its own data type used in the response, for example: `createBetOrderUiStake` returns `Promise<ClientResponse<CreateBetOrderResponse>>`
+Each endpoint defines its own data type used in the response, for example: `createOrderUiStake` returns `Promise<ClientResponse<CreateOrderResponse>>`
 
 ```
-export type CreateBetOrderResponse = {
-  betOrderPk: PublicKey;
+export type CreateOrderResponse = {
+  orderPk: PublicKey;
   tnxID: string | void;
 };
 ```
