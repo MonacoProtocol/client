@@ -7,6 +7,7 @@ import {
   GetPublicKeys,
   MarketOutcomeAccount,
   MarketOutcomeAccounts,
+  MarketOutcomeTitlesResponse,
 } from "../types";
 
 /**
@@ -138,7 +139,7 @@ export async function getMarketOutcomesByMarket(
  *
  * @param program {program} anchor program initialized by the consuming client
  * @param marketPk {PublicKey} publicKey of the market
- * @returns { string } fetched market outcome titles array ordered by index
+ * @returns { MarketOutcomeTitlesResponse } fetched market outcome titles ordered by index
  *
  * @example
  * const marketPk = new PublicKey('7o1PXyYZtBBDFZf9cEhHopn2C9R4G6GaPwFAxaNWM33D')
@@ -147,7 +148,8 @@ export async function getMarketOutcomesByMarket(
 export async function getMarketOutcomeTitlesByMarket(
   program: Program,
   marketPk: PublicKey,
-): Promise<string[]> {
+): Promise<ClientResponse<MarketOutcomeTitlesResponse>> {
+  const response = new ResponseFactory({});
   const result = [] as string[];
 
   const marketOutcomesResponse = await MarketOutcomes.marketOutcomeQuery(
@@ -155,6 +157,11 @@ export async function getMarketOutcomeTitlesByMarket(
   )
     .filterByMarket(marketPk)
     .fetch();
+
+  if (!marketOutcomesResponse.success) {
+    response.addErrors(marketOutcomesResponse.errors);
+    return response.body;
+  }
 
   const marketOutcomeAccounts =
     marketOutcomesResponse.data.marketOutcomeAccounts;
@@ -164,5 +171,7 @@ export async function getMarketOutcomeTitlesByMarket(
         marketOutcomeAccount.account.title),
   );
 
-  return result;
+  response.addResponseData({ marketOutcomeTitles: result });
+
+  return response.body;
 }

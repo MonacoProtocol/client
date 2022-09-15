@@ -61,15 +61,13 @@ export class Markets {
     return this;
   }
 
-  filterByStatus(status: MarketStatus): Markets {
-    this._filter.push(
-      this.toFilter(8 + 32 + 32 + 32 + 1, bs58.encode([status])),
-    );
+  filterByMintAccount(mintAccount: PublicKey): Markets {
+    this._filter.push(this.toFilter(8 + 32 + 32, mintAccount.toBase58()));
     return this;
   }
 
-  filterByMintAccount(mintAccount: PublicKey): Markets {
-    this._filter.push(this.toFilter(8 + 32 + 32, mintAccount.toBase58()));
+  filterByStatus(status: MarketStatus): Markets {
+    this._filter.push(this.toFilter(8 + 32 + 32 + 32, bs58.encode([status])));
     return this;
   }
 

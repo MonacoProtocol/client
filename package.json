@@ -1,6 +1,6 @@
 {
   "name": "@monaco-protocol/client",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "Interface package for the Monaco Protocol on Solana",
   "author": "Monaco Protocol",
   "license": "MIT",
@@ -22,7 +22,7 @@
     "build": "tsc --downlevelIteration",
     "clean": "tsc --build --clean",
     "generateDocs": "./generate_docs.sh",
-    "publishClient": "npm run build && npm publish --access public && npm run clean"
+    "publishClient": "npm install && npm run build && npm publish --access public && npm run clean"
   },
   "dependencies": {
     "bs58": "^4.0.1",

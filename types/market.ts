@@ -67,6 +67,10 @@ export type MarketOutcomeAccounts = {
   marketOutcomeAccounts: GetAccount<MarketOutcomeAccount>[];
 };
 
+export type MarketOutcomeTitlesResponse = {
+  marketOutcomeTitles: string[];
+};
+
 export type MarketAccountsForCreateOrder = {
   escrowPda: PublicKey;
   marketOutcomePda: PublicKey;

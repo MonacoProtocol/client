@@ -72,7 +72,10 @@ export async function getMarketPrices(
     const account = pendingOrder.account;
 
     const price = {
-      marketOutcome: marketOutcomeTitles[account.marketOutcomeIndex],
+      marketOutcome:
+        marketOutcomeTitles.data.marketOutcomeTitles[
+          account.marketOutcomeIndex
+        ],
       marketOutcomeIndex: account.marketOutcomeIndex,
       price: account.expectedPrice,
       forOutcome: account.forOutcome,

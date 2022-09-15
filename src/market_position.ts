@@ -64,14 +64,27 @@ export async function getMarketPosition(
       marketPk,
       purchaserPk,
     );
+
+    if (!marketPositionPda.success) {
+      response.addErrors(marketPositionPda.errors);
+      return response.body;
+    }
+
     marketPosition = (await program.account.marketPosition.fetch(
       marketPositionPda.data.pda,
     )) as MarketPosition;
 
-    marketOutcomeTitles = await getMarketOutcomeTitlesByMarket(
+    const marketOutcomeTitlesResponse = await getMarketOutcomeTitlesByMarket(
       program,
       marketPk,
     );
+
+    if (!marketOutcomeTitlesResponse.success) {
+      response.addErrors(marketOutcomeTitlesResponse.errors);
+      return response.body;
+    }
+
+    marketOutcomeTitles = marketOutcomeTitlesResponse.data.marketOutcomeTitles;
   } catch (e) {
     response.addError(e);
     return response.body;
