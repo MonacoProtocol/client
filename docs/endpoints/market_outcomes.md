@@ -11,40 +11,40 @@
 
 ## findMarketOutcomePda
 
-For the provided market publicKey and market outcome, return the PDA (publicKey) of the outcome account.
+For the provided market publicKey and market outcome index, return the PDA (publicKey) of the outcome account.
 
 ### Parameters
 
 *   `program` **Program** {program} anchor program initialized by the consuming client
 *   `marketPk` **PublicKey** {PublicKey} publicKey of a market
-*   `marketOutcome` **[string][7]** {string} string representation of a market outcome
+*   `marketOutcomeIndex` **[number][7]** {number} index representing a market outcome
 
 ### Examples
 
 ```javascript
 const marketPk = new PublicKey('7o1PXyYZtBBDFZf9cEhHopn2C9R4G6GaPwFAxaNWM33D')
-const marketOutcome = "Monaco"
-const marketOutcomePda = await findMarketOutcomePda(program, marketPK, marketOutcome)
+const marketOutcomeIndex = 0
+const marketOutcomePda = await findMarketOutcomePda(program, marketPK, marketOutcomeIndex)
 ```
 
 Returns **FindPdaResponse** PDA of the market outcome account
 
 ## findMarketOutcomePdas
 
-For the provided market and market outcomes, return the PDAs (publicKeys) of the outcome accounts.
+For the provided market and market outcome indexes, return the PDAs (publicKeys) of the outcome accounts.
 
 ### Parameters
 
 *   `program` **Program** {program} anchor program initialized by the consuming client
 *   `marketPk` **PublicKey** {PublicKey} publicKey of the market to get market outcome accounts for
-*   `marketOutcomes` **[Array][8]<[string][7]>** {string\[]} string list of outcomes on the provided market
+*   `marketOutcomeIndexes` **[Array][8]<[number][7]>** {number\[]} list of indexes representing market outcomes
 
 ### Examples
 
 ```javascript
 const marketPk = new PublicKey('7o1PXyYZtBBDFZf9cEhHopn2C9R4G6GaPwFAxaNWM33D')
-const marketOutcomes = ["Monaco", "Protocol"]
-const marketOutcomePdas = await findMarketOutcomePdas(program, marketPK, marketOutcomes)
+const marketOutcomeIndexes = [0, 1]
+const marketOutcomePdas = await findMarketOutcomePdas(program, marketPK, marketOutcomeIndexes)
 ```
 
 Returns **GetPublicKeys**&#x20;
@@ -61,6 +61,6 @@ Returns **GetPublicKeys**&#x20;
 
 [6]: #examples-1
 
-[7]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String
+[7]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number
 
 [8]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array

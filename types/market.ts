@@ -1,6 +1,6 @@
 import { BN } from "@project-serum/anchor";
 import { PublicKey } from "@solana/web3.js";
-import { BetOrder } from "./bet_order";
+import { Order } from "./order";
 import { GetAccount } from "./get_account";
 
 export enum MarketStatus {
@@ -11,13 +11,20 @@ export enum MarketStatus {
   Complete = 0x04,
 }
 
+export enum MarketType {
+  EventResultFullTime = "EventResultFullTime",
+  EventResultHalfTime = "EventResultHalfTime",
+  EventResultBothSidesScore = "EventResultBothSidesScore",
+  EventResultWinner = "EventResultWinner",
+}
+
 export type MarketAccount = {
   authority: BN;
   decimalLimit: number;
   escrowAccountBump: number;
   eventAccount: PublicKey;
   marketLockTimestamp: BN;
-  marketOutcomes: string[];
+  marketOutcomesCount: number;
   marketSettleTimestamp?: null;
   marketStatus: MarketStatus;
   marketType: string;
@@ -33,7 +40,7 @@ export type MarketAccounts = {
 };
 
 export type MarketMatchingPoolAccount = {
-  betOrders: {
+  orders: {
     front: number;
     len: number;
     items: PublicKey[];
@@ -48,18 +55,23 @@ export type MarketMatchingPoolAccounts = {
 };
 
 export type MarketOutcomeAccount = {
+  index: number;
   title: string;
   market: PublicKey;
-  latestMatchedOdds: number;
+  latestMatchedPrice: number;
   matchedTotal: BN;
-  oddsLadder: number[];
+  priceLadder: number[];
 };
 
 export type MarketOutcomeAccounts = {
   marketOutcomeAccounts: GetAccount<MarketOutcomeAccount>[];
 };
 
-export type MarketAccountsForCreateBetOrder = {
+export type MarketOutcomeTitlesResponse = {
+  marketOutcomeTitles: string[];
+};
+
+export type MarketAccountsForCreateOrder = {
   escrowPda: PublicKey;
   marketOutcomePda: PublicKey;
   marketOutcomePoolPda: PublicKey;
@@ -69,14 +81,15 @@ export type MarketAccountsForCreateBetOrder = {
 
 export type MarketPrice = {
   marketOutcome: string;
-  odds: number;
-  backing: boolean;
+  marketOutcomeIndex: number;
+  price: number;
+  forOutcome: boolean;
   matchingPoolPda: PublicKey;
   matchingPool: MarketMatchingPoolAccount;
 };
 
 export type MarketPrices = {
   market: MarketAccount;
-  pendingBetOrders: BetOrder[];
+  pendingOrders: Order[];
   marketPrices: MarketPrice[];
 };

@@ -9,14 +9,14 @@
 
 ## MarketMatchingPool
 
-Type: {purchaser: PublicKey, liquidityAmount: BN, matchedAmount: BN, betOrders: [Cirque][3]}
+Type: {purchaser: PublicKey, liquidityAmount: BN, matchedAmount: BN, orders: [Cirque][3]}
 
 ### Properties
 
 *   `purchaser` **PublicKey**&#x20;
 *   `liquidityAmount` **BN**&#x20;
 *   `matchedAmount` **BN**&#x20;
-*   `betOrders` **[Cirque][3]**&#x20;
+*   `orders` **[Cirque][3]**&#x20;
 
 ## Cirque
 

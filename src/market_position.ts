@@ -1,7 +1,8 @@
 import { PublicKey } from "@solana/web3.js";
 import { Program, BN } from "@project-serum/anchor";
-import { MarketAccount, MarketPosition } from "../types";
+import { MarketPosition } from "../types";
 import { ClientResponse, ResponseFactory, FindPdaResponse } from "../types";
+import { getMarketOutcomeTitlesByMarket } from "./market_outcome_query";
 
 /**
  * For the provided market publicKey and purchaser wallet publicKey, return the PDA (publicKey) of that wallets market position account.
@@ -54,30 +55,50 @@ export async function getMarketPosition(
 ): Promise<ClientResponse<MarketPosition>> {
   const response = new ResponseFactory({} as MarketPosition);
 
-  let market = {} as MarketAccount;
   let marketPosition = {} as MarketPosition;
+  let marketOutcomeTitles = [] as string[];
+
   try {
-    market = (await program.account.market.fetch(marketPk)) as MarketAccount;
     const marketPositionPda = await findMarketPositionPda(
       program,
       marketPk,
       purchaserPk,
     );
+
+    if (!marketPositionPda.success) {
+      response.addErrors(marketPositionPda.errors);
+      return response.body;
+    }
+
     marketPosition = (await program.account.marketPosition.fetch(
       marketPositionPda.data.pda,
     )) as MarketPosition;
+
+    const marketOutcomeTitlesResponse = await getMarketOutcomeTitlesByMarket(
+      program,
+      marketPk,
+    );
+
+    if (!marketOutcomeTitlesResponse.success) {
+      response.addErrors(marketOutcomeTitlesResponse.errors);
+      return response.body;
+    }
+
+    marketOutcomeTitles = marketOutcomeTitlesResponse.data.marketOutcomeTitles;
   } catch (e) {
     response.addError(e);
     return response.body;
   }
 
   marketPosition.outcomePositions = new Map<string, BN>();
-  market.marketOutcomes.forEach((marketOutcome: string, index: number) => {
-    marketPosition.outcomePositions.set(
-      marketOutcome,
-      marketPosition.marketOutcomeSums[index],
-    );
-  });
+  marketPosition.marketOutcomeSums.forEach(
+    (marketOutcomeSum: BN, index: number) => {
+      marketPosition.outcomePositions.set(
+        marketOutcomeTitles[index],
+        marketOutcomeSum,
+      );
+    },
+  );
 
   response.addResponseData(marketPosition);
 

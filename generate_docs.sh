@@ -1,22 +1,27 @@
 #!/bin/bash
 
+cd $(dirname $0)
+PATH=$(npm bin):$PATH
+
 declare -a endpoints=(
-    "bet_order_query"
-    "bet_order"
-    "cancel_bet_order"
-    "create_bet_order"
+    "order_query"
+    "order"
+    "cancel_order"
+    "create_order"
     "market_matching_pools"
     "market_outcomes"
     "market_position"
     "market_prices"
     "market_query"
     "markets"
+    "trade"
+    "trade_query"
     "utils"
     "wallet_tokens"
 )
 
 declare -a types=(
-    "bet_order"
+    "order"
     "client"
     "errors"
     "get_account"
@@ -24,21 +29,27 @@ declare -a types=(
     "market"
     "matching_pool"
     "protocol"
+    "trade"
     "wallet_tokens"
 )
 
 npm run build
+wait
 
+createDocs(){
+    rm -R -f docs/${1}/${3}.md &&
+    echo "Generating docs for ${2}/${3}" &&
+    documentation build --document-exported ${2}/${3}.d.ts -f md >> docs/${1}/${3}.md
+}
+
+mkdir -p docs/endpoints
 for endpoint in ${endpoints[@]}; do
-    rm -R docs/endpoints/${endpoint}.md
-    echo "Generating docs for endpoints/${endpoint}"
-    documentation build --document-exported src/${endpoint}.d.ts -f md >> docs/endpoints/${endpoint}.md
+    createDocs "endpoints" "src" ${endpoint} &
 done
 
+mkdir -p docs/types
 for type in ${types[@]}; do
-    rm -R docs/types/${type}.md
-    echo "Generating docs for types/${type}"
-    documentation build --document-exported types/${type}.d.ts -f md >> docs/types/${type}.md
+    createDocs "types" "types" ${type} &
 done
 
-npm run clean
+wait

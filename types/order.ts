@@ -2,7 +2,7 @@ import { PublicKey } from "@solana/web3.js";
 import { BN } from "@project-serum/anchor";
 import { GetAccount } from "./get_account";
 
-export enum BetOrderStatus {
+export enum OrderStatus {
   Open = 0x00,
   Matched = 0x01,
   SettledWin = 0x02,
@@ -11,46 +11,46 @@ export enum BetOrderStatus {
 }
 
 export type Match = {
-  odds: number;
+  price: number;
   stake: number;
 };
 
-export type BetOrder = {
+export type Order = {
   purchaser: PublicKey;
   market: PublicKey;
   marketOutcomeIndex: number;
-  backing: boolean;
-  betOrderStatus: BetOrderStatus;
+  forOutcome: boolean;
+  orderStatus: OrderStatus;
   stake: BN;
   voidedStake: BN;
-  expectedOdds: number;
+  expectedPrice: number;
   creationTimestamp: BN;
   stakeUnmatched: BN;
   payout: BN;
   matches: Match[];
 };
 
-export type BetOrderAccounts = {
-  betOrderAccounts: GetAccount<BetOrder>[];
+export type OrderAccounts = {
+  orderAccounts: GetAccount<Order>[];
 };
 
-export type CreateBetOrderResponse = {
-  betOrderPk: PublicKey;
+export type CreateOrderResponse = {
+  orderPk: PublicKey;
   tnxID: string | void;
 };
 
-export type CancelBetOrderResponse = {
-  betOrderPk: PublicKey;
+export type CancelOrderResponse = {
+  orderPk: PublicKey;
   tnxID: string;
 };
 
-export type CancelBetOrdersResponse = {
-  failedCancellationBetOrders: PublicKey[];
+export type CancelOrdersResponse = {
+  failedCancellationOrders: PublicKey[];
   tnxIDs: string[];
 };
 
-export type betOrderPdaResponse = {
-  betOrderPk: PublicKey;
+export type orderPdaResponse = {
+  orderPk: PublicKey;
   distinctSeed: string;
 };
 

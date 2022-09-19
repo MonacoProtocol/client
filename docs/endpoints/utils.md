@@ -17,27 +17,27 @@
 
 ## getMarketAccounts
 
-For the provided market, outcome, odds and backing condition - return all the necessary PDAs and account information required for betOrder creation.
+For the provided market, outcome, price and forOutcome condition - return all the necessary PDAs and account information required for order creation.
 
 ### Parameters
 
 *   `program` **Program** {program} anchor program initialized by the consuming client
 *   `marketPk` **PublicKey** {PublicKey} publicKey of a market
-*   `backing` **[boolean][13]** {boolean} bool representing backing or laying a market
+*   `forOutcome` **[boolean][13]** {boolean} bool representing for or against a market outcome
 *   `marketOutcomeIndex` **[number][14]** {number} index representing the chosen outcome of a market
-*   `odds` **[number][14]** {number} odds for betOrder
+*   `price` **[number][14]** {number} price for order
 
 ### Examples
 
 ```javascript
 const marketPk = new PublicKey('7o1PXyYZtBBDFZf9cEhHopn2C9R4G6GaPwFAxaNWM33D')
-const backing = true
+const forOutcome = true
 const marketOutcomeIndex = 0
-const odds = 5.9
-const marketAccounts = await getMarketAccounts(program, marketPK, backing, marketOutcomeIndex, odds)
+const price = 5.9
+const marketAccounts = await getMarketAccounts(program, marketPK, forOutcome, marketOutcomeIndex, price)
 ```
 
-Returns **[Promise][15]\<ClientResponse\<MarketAccountsForCreateBetOrder>>**&#x20;
+Returns **[Promise][15]\<ClientResponse\<MarketAccountsForCreateOrder>>**&#x20;
 
 ## uiStakeToInteger
 

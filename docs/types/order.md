@@ -2,96 +2,96 @@
 
 ### Table of Contents
 
-*   [BetOrderStatus][1]
+*   [OrderStatus][1]
 *   [Match][2]
     *   [Properties][3]
-*   [BetOrder][4]
+*   [Order][4]
     *   [Properties][5]
-*   [BetOrderAccounts][6]
+*   [OrderAccounts][6]
     *   [Properties][7]
-*   [CreateBetOrderResponse][8]
+*   [CreateOrderResponse][8]
     *   [Properties][9]
-*   [CancelBetOrderResponse][10]
+*   [CancelOrderResponse][10]
     *   [Properties][11]
-*   [CancelBetOrdersResponse][12]
+*   [CancelOrdersResponse][12]
     *   [Properties][13]
-*   [betOrderPdaResponse][14]
+*   [orderPdaResponse][14]
     *   [Properties][15]
 *   [StakeInteger][16]
     *   [Properties][17]
 
-## BetOrderStatus
+## OrderStatus
 
 ## Match
 
-Type: {odds: [number][18], stake: [number][18]}
+Type: {price: [number][18], stake: [number][18]}
 
 ### Properties
 
-*   `odds` **[number][18]**&#x20;
+*   `price` **[number][18]**&#x20;
 *   `stake` **[number][18]**&#x20;
 
-## BetOrder
+## Order
 
-Type: {purchaser: PublicKey, market: PublicKey, marketOutcomeIndex: [number][18], backing: [boolean][19], betOrderStatus: [BetOrderStatus][1], stake: BN, voidedStake: BN, expectedOdds: [number][18], creationTimestamp: BN, stakeUnmatched: BN, payout: BN, matches: [Array][20]<[Match][2]>}
+Type: {purchaser: PublicKey, market: PublicKey, marketOutcomeIndex: [number][18], forOutcome: [boolean][19], orderStatus: [OrderStatus][1], stake: BN, voidedStake: BN, expectedPrice: [number][18], creationTimestamp: BN, stakeUnmatched: BN, payout: BN, matches: [Array][20]<[Match][2]>}
 
 ### Properties
 
 *   `purchaser` **PublicKey**&#x20;
 *   `market` **PublicKey**&#x20;
 *   `marketOutcomeIndex` **[number][18]**&#x20;
-*   `backing` **[boolean][19]**&#x20;
-*   `betOrderStatus` **[BetOrderStatus][1]**&#x20;
+*   `forOutcome` **[boolean][19]**&#x20;
+*   `orderStatus` **[OrderStatus][1]**&#x20;
 *   `stake` **BN**&#x20;
 *   `voidedStake` **BN**&#x20;
-*   `expectedOdds` **[number][18]**&#x20;
+*   `expectedPrice` **[number][18]**&#x20;
 *   `creationTimestamp` **BN**&#x20;
 *   `stakeUnmatched` **BN**&#x20;
 *   `payout` **BN**&#x20;
 *   `matches` **[Array][20]<[Match][2]>**&#x20;
 
-## BetOrderAccounts
+## OrderAccounts
 
-Type: {betOrderAccounts: [Array][20]\<GetAccount<[BetOrder][4]>>}
-
-### Properties
-
-*   `betOrderAccounts` **[Array][20]\<GetAccount<[BetOrder][4]>>**&#x20;
-
-## CreateBetOrderResponse
-
-Type: {betOrderPk: PublicKey, tnxID: ([string][21] | void)}
+Type: {orderAccounts: [Array][20]\<GetAccount<[Order][4]>>}
 
 ### Properties
 
-*   `betOrderPk` **PublicKey**&#x20;
+*   `orderAccounts` **[Array][20]\<GetAccount<[Order][4]>>**&#x20;
+
+## CreateOrderResponse
+
+Type: {orderPk: PublicKey, tnxID: ([string][21] | void)}
+
+### Properties
+
+*   `orderPk` **PublicKey**&#x20;
 *   `tnxID` **([string][21] | void)**&#x20;
 
-## CancelBetOrderResponse
+## CancelOrderResponse
 
-Type: {betOrderPk: PublicKey, tnxID: [string][21]}
+Type: {orderPk: PublicKey, tnxID: [string][21]}
 
 ### Properties
 
-*   `betOrderPk` **PublicKey**&#x20;
+*   `orderPk` **PublicKey**&#x20;
 *   `tnxID` **[string][21]**&#x20;
 
-## CancelBetOrdersResponse
+## CancelOrdersResponse
 
-Type: {failedCancellationBetOrders: [Array][20]\<PublicKey>, tnxIDs: [Array][20]<[string][21]>}
+Type: {failedCancellationOrders: [Array][20]\<PublicKey>, tnxIDs: [Array][20]<[string][21]>}
 
 ### Properties
 
-*   `failedCancellationBetOrders` **[Array][20]\<PublicKey>**&#x20;
+*   `failedCancellationOrders` **[Array][20]\<PublicKey>**&#x20;
 *   `tnxIDs` **[Array][20]<[string][21]>**&#x20;
 
-## betOrderPdaResponse
+## orderPdaResponse
 
-Type: {betOrderPk: PublicKey, distinctSeed: [string][21]}
+Type: {orderPk: PublicKey, distinctSeed: [string][21]}
 
 ### Properties
 
-*   `betOrderPk` **PublicKey**&#x20;
+*   `orderPk` **PublicKey**&#x20;
 *   `distinctSeed` **[string][21]**&#x20;
 
 ## StakeInteger
@@ -102,33 +102,33 @@ Type: {stakeInteger: BN}
 
 *   `stakeInteger` **BN**&#x20;
 
-[1]: #betorderstatus
+[1]: #orderstatus
 
 [2]: #match
 
 [3]: #properties
 
-[4]: #betorder
+[4]: #order
 
 [5]: #properties-1
 
-[6]: #betorderaccounts
+[6]: #orderaccounts
 
 [7]: #properties-2
 
-[8]: #createbetorderresponse
+[8]: #createorderresponse
 
 [9]: #properties-3
 
-[10]: #cancelbetorderresponse
+[10]: #cancelorderresponse
 
 [11]: #properties-4
 
-[12]: #cancelbetordersresponse
+[12]: #cancelordersresponse
 
 [13]: #properties-5
 
-[14]: #betorderpdaresponse
+[14]: #orderpdaresponse
 
 [15]: #properties-6
 

@@ -4,7 +4,7 @@
 
 *   [ClientError][1]
     *   [Properties][2]
-*   [NoCancellableBetOrdersFound][3]
+*   [NoCancellableOrdersFound][3]
 
 ## ClientError
 
@@ -15,7 +15,7 @@ Type: {errorCode: [string][4], errorMessage: ClientErrors}
 *   `errorCode` **[string][4]**&#x20;
 *   `errorMessage` **ClientErrors**&#x20;
 
-## NoCancellableBetOrdersFound
+## NoCancellableOrdersFound
 
 Type: [ClientError][1]
 
@@ -23,6 +23,6 @@ Type: [ClientError][1]
 
 [2]: #properties
 
-[3]: #nocancellablebetordersfound
+[3]: #nocancellableordersfound
 
 [4]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String

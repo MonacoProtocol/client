@@ -37,7 +37,7 @@ Helper to construct a client response object, each endpoint should return a resp
 ### Examples
 
 ```javascript
-const response = new ResponseFactory({} as BetOrderAccounts);
+const response = new ResponseFactory({} as OrderAccounts);
 try {
    performAction()
 }
@@ -50,7 +50,7 @@ if (!secondaryRequest.success){
    return response.body
 }
 response.addResponseData({
-    betOrderPk: new PublicKey("Fy7WiqBy6MuWfnVjiPE8HQqkeLnyaLwBsk8cyyJ5WD8X")
+    orderPk: new PublicKey("Fy7WiqBy6MuWfnVjiPE8HQqkeLnyaLwBsk8cyyJ5WD8X")
 })
 return response.body
 ```

@@ -3,35 +3,34 @@ import { Program } from "@project-serum/anchor";
 import {
   ClientResponse,
   ResponseFactory,
-  MarketOutcomeAccounts,
-  MarketOutcomePDAs,
-  MarketOutcomeAccount,
+  FindPdaResponse,
+  GetPublicKeys,
 } from "../types";
-import { FindPdaResponse } from "../types";
 
 /**
- * For the provided market publicKey and market outcome, return the PDA (publicKey) of the outcome account.
+ * For the provided market publicKey and market outcome index, return the PDA (publicKey) of the outcome account.
  *
  * @param program {program} anchor program initialized by the consuming client
  * @param marketPk {PublicKey} publicKey of a market
- * @param marketOutcome {string} string representation of a market outcome
+ * @param marketOutcomeIndex {number} index representing a market outcome
  * @returns {FindPdaResponse} PDA of the market outcome account
  *
  * @example
  *
  * const marketPk = new PublicKey('7o1PXyYZtBBDFZf9cEhHopn2C9R4G6GaPwFAxaNWM33D')
- * const marketOutcome = "Monaco"
- * const marketOutcomePda = await findMarketOutcomePda(program, marketPK, marketOutcome)
+ * const marketOutcomeIndex = 0
+ * const marketOutcomePda = await findMarketOutcomePda(program, marketPK, marketOutcomeIndex)
  */
 export async function findMarketOutcomePda(
   program: Program,
   marketPk: PublicKey,
-  marketOutcome: string,
+  marketOutcomeIndex: number,
 ): Promise<ClientResponse<FindPdaResponse>> {
   const response = new ResponseFactory({} as FindPdaResponse);
+
   try {
     const [pda, _] = await PublicKey.findProgramAddress(
-      [marketPk.toBuffer(), Buffer.from(marketOutcome)],
+      [marketPk.toBuffer(), Buffer.from(marketOutcomeIndex.toString())],
       program.programId,
     );
 
@@ -45,83 +44,43 @@ export async function findMarketOutcomePda(
 }
 
 /**
- * For the provided market and market outcomes, return the PDAs (publicKeys) of the outcome accounts.
+ * For the provided market and market outcome indexes, return the PDAs (publicKeys) of the outcome accounts.
  *
  * @param program {program} anchor program initialized by the consuming client
  * @param marketPk {PublicKey} publicKey of the market to get market outcome accounts for
- * @param marketOutcomes {string[]} string list of outcomes on the provided market
- * @returns {MarketOutcomePDAs}
+ * @param marketOutcomeIndexes {number[]} list of indexes representing market outcomes
+ * @returns {GetPublicKeys}
  *
  * @example
  *
  * const marketPk = new PublicKey('7o1PXyYZtBBDFZf9cEhHopn2C9R4G6GaPwFAxaNWM33D')
- * const marketOutcomes = ["Monaco", "Protocol"]
- * const marketOutcomePdas = await findMarketOutcomeAccountPDAs(program, marketPK, marketOutcomes)
+ * const marketOutcomeIndexes = [0, 1]
+ * const marketOutcomePdas = await findMarketOutcomePdas(program, marketPK, marketOutcomeIndexes)
  */
-async function findMarketOutcomeAccountPDAs(
+export async function findMarketOutcomePdas(
   program: Program,
   marketPk: PublicKey,
-  marketOutcomes: string[],
-): Promise<ClientResponse<MarketOutcomePDAs>> {
-  const response = new ResponseFactory({} as MarketOutcomePDAs);
+  marketOutcomeIndexes: number[],
+): Promise<ClientResponse<GetPublicKeys>> {
+  const response = new ResponseFactory({} as GetPublicKeys);
   try {
     const marketOutcomePDAs = await Promise.all(
-      marketOutcomes.map(async function (outcome) {
-        return await findMarketOutcomePda(program, marketPk, outcome);
+      marketOutcomeIndexes.map(async function (marketOutcomeIndex) {
+        return await findMarketOutcomePda(
+          program,
+          marketPk,
+          marketOutcomeIndex,
+        );
       }),
     );
     response.addResponseData({
-      marketOutcomePDAs: marketOutcomePDAs.map(
-        (marketOutcomePDAResponse) => marketOutcomePDAResponse.data.pda,
+      publicKeys: marketOutcomePDAs.map(
+        (marketOutcomePdaResponse) => marketOutcomePdaResponse.data.pda,
       ),
     });
   } catch (e) {
     response.addError(e);
   }
-
-  return response.body;
-}
-
-/**
- * For the provided market and market outcomes, return the outcome accounts.
- *
- * @param program {program} anchor program initialized by the consuming client
- * @param marketPk {PublicKey} publicKey of the market to get market outcome accounts for
- * @param marketOutcomes {string[]} string list of outcomes on the provided market
- * @returns {MarketOutcomeAccounts}
- *
- * @example
- *
- * const marketPk = new PublicKey('7o1PXyYZtBBDFZf9cEhHopn2C9R4G6GaPwFAxaNWM33D')
- * const marketOutcomes = ["Monaco", "Protocol"]
- * const marketOutcomeAccounts = await getMarketOutcomeAccounts(program, marketPK, marketOutcomes)
- */
-export async function getMarketOutcomeAccounts(
-  program: Program,
-  marketPk: PublicKey,
-  marketOutcomes: string[],
-): Promise<ClientResponse<MarketOutcomeAccounts>> {
-  const response = new ResponseFactory({} as MarketOutcomeAccounts);
-
-  const marketOutcomePDAs = await findMarketOutcomeAccountPDAs(
-    program,
-    marketPk,
-    marketOutcomes,
-  );
-
-  if (marketOutcomePDAs.success) {
-    try {
-      const marketOutcomeAccounts =
-        (await program.account.marketOutcome.fetchMultiple(
-          marketOutcomePDAs.data.marketOutcomePDAs,
-        )) as MarketOutcomeAccount[];
-      response.addResponseData({
-        marketOutcomeAccounts: marketOutcomeAccounts,
-      });
-    } catch (e) {
-      response.addError(e);
-    }
-  } else response.addErrors(marketOutcomePDAs.errors);
 
   return response.body;
 }

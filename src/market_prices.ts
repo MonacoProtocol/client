@@ -1,13 +1,14 @@
 import { Program } from "@project-serum/anchor";
 import { PublicKey } from "@solana/web3.js";
-import { BetOrders } from "./bet_order_query";
+import { Orders } from "./order_query";
+import { getMarketOutcomeTitlesByMarket } from "./market_outcome_query";
 import { getMarket } from "./markets";
 import {
   findMarketMatchingPoolPda,
   getMarketMatchingPoolAccounts,
 } from "./market_matching_pools";
 import {
-  BetOrderStatus,
+  OrderStatus,
   MarketPrice,
   MarketPrices,
   ClientResponse,
@@ -18,14 +19,14 @@ import {
  * For the provided market publicKey return:
  *
  * - The market account
- * - The pending betOrders for the market (unmatched/partially matched orders)
+ * - The pending orders for the market (unmatched/partially matched orders)
  * - The market prices for the market
  *
- *  Market prices are all unique pending betOrder combinations (OUTCOME, ODDS, BACKING) and their corresponding matching pool accounts.
+ *  Market prices are all unique pending order combinations (OUTCOME, PRICE, FOR) and their corresponding matching pool accounts.
  *
  * @param program {program} anchor program initialized by the consuming client
  * @param marketPk {PublicKey} publicKey of a market
- * @returns {MarketPrices} Market account, pending betOrders and marketPrices with matching pools
+ * @returns {MarketPrices} Market account, pending orders and marketPrices with matching pools
  *
  * @example
  *
@@ -37,42 +38,47 @@ export async function getMarketPrices(
   marketPk: PublicKey,
 ): Promise<ClientResponse<MarketPrices>> {
   const response = new ResponseFactory({} as MarketPrices);
-  const [matchedBetOrders, openBetOrders, market] = await Promise.all([
-    await new BetOrders(program)
-      .filterByMarket(marketPk)
-      .filterByStatus(BetOrderStatus.Matched)
-      .fetch(),
-    await new BetOrders(program)
-      .filterByMarket(marketPk)
-      .filterByStatus(BetOrderStatus.Open)
-      .fetch(),
-    await getMarket(program, marketPk),
-  ]);
+  const [matchedOrders, openOrders, market, marketOutcomeTitles] =
+    await Promise.all([
+      await new Orders(program)
+        .filterByMarket(marketPk)
+        .filterByStatus(OrderStatus.Matched)
+        .fetch(),
+      await new Orders(program)
+        .filterByMarket(marketPk)
+        .filterByStatus(OrderStatus.Open)
+        .fetch(),
+      await getMarket(program, marketPk),
+      await getMarketOutcomeTitlesByMarket(program, marketPk),
+    ]);
 
-  if (!matchedBetOrders.success || !openBetOrders.success || !market.success) {
-    response.addErrors(matchedBetOrders.errors);
-    response.addErrors(openBetOrders.errors);
+  if (!matchedOrders.success || !openOrders.success || !market.success) {
+    response.addErrors(matchedOrders.errors);
+    response.addErrors(openOrders.errors);
     response.addErrors(market.errors);
     return response.body;
   }
 
-  const partiallyMatchedBetOrders =
-    matchedBetOrders.data.betOrderAccounts.filter(
-      (betOrder) => betOrder.account.stakeUnmatched.toNumber() > 0,
-    );
+  const partiallyMatchedOrders = matchedOrders.data.orderAccounts.filter(
+    (order) => order.account.stakeUnmatched.toNumber() > 0,
+  );
 
-  const pendingBetOrders = partiallyMatchedBetOrders.concat(
-    openBetOrders.data.betOrderAccounts,
+  const pendingOrders = partiallyMatchedOrders.concat(
+    openOrders.data.orderAccounts,
   );
 
   const marketPricesSet = new Set();
-  pendingBetOrders.map((pendingBetOrder) => {
-    const account = pendingBetOrder.account;
+  pendingOrders.map((pendingOrder) => {
+    const account = pendingOrder.account;
+
     const price = {
       marketOutcome:
-        market.data.account.marketOutcomes[account.marketOutcomeIndex],
-      odds: account.expectedOdds,
-      backing: account.backing,
+        marketOutcomeTitles.data.marketOutcomeTitles[
+          account.marketOutcomeIndex
+        ],
+      marketOutcomeIndex: account.marketOutcomeIndex,
+      price: account.expectedPrice,
+      forOutcome: account.forOutcome,
     };
     marketPricesSet.add(JSON.stringify(price));
   });
@@ -87,9 +93,9 @@ export async function getMarketPrices(
       const matchingPoolPDA = await findMarketMatchingPoolPda(
         program,
         market.data.publicKey,
-        price.marketOutcome,
-        price.odds,
-        price.backing,
+        price.marketOutcomeIndex,
+        price.price,
+        price.forOutcome,
       );
       if (!matchingPoolPDA.success) {
         response.addErrors(matchingPoolPDA.errors);
@@ -122,7 +128,7 @@ export async function getMarketPrices(
 
   response.addResponseData({
     market: market.data.account,
-    pendingBetOrders: pendingBetOrders,
+    pendingOrders: pendingOrders,
     marketPrices: marketPrices,
   });
 
