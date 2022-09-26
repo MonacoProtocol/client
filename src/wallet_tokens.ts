@@ -1,10 +1,6 @@
 import { PublicKey, LAMPORTS_PER_SOL, TokenAmount } from "@solana/web3.js";
 import { AnchorProvider, Program } from "@project-serum/anchor";
-import {
-  ASSOCIATED_TOKEN_PROGRAM_ID,
-  Token,
-  TOKEN_PROGRAM_ID,
-} from "@solana/spl-token";
+import { getAssociatedTokenAddress } from "@solana/spl-token";
 import {
   ClientResponse,
   GetWalletBalanceResponse,
@@ -70,9 +66,7 @@ export async function getWalletTokenAccount(
 
   const provider = program.provider as AnchorProvider;
   try {
-    const tokenAccount = await Token.getAssociatedTokenAddress(
-      ASSOCIATED_TOKEN_PROGRAM_ID,
-      TOKEN_PROGRAM_ID,
+    const tokenAccount = await getAssociatedTokenAddress(
       tokenMint,
       provider.wallet.publicKey,
     );

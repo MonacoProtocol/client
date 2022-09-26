@@ -1,7 +1,6 @@
-import NodeWallet from "@project-serum/anchor/dist/cjs/nodewallet";
 import { PublicKey } from "@solana/web3.js";
 import { AnchorProvider, BN, Program } from "@project-serum/anchor";
-import { MintInfo, Token, TOKEN_PROGRAM_ID } from "@solana/spl-token";
+import { Mint, getMint } from "@solana/spl-token";
 import { getMarket } from "./markets";
 import { findMarketPositionPda } from "./market_position";
 import { findMarketMatchingPoolPda } from "./market_matching_pools";
@@ -163,20 +162,12 @@ export async function findEscrowPda(
 export async function getMintInfo(
   program: Program,
   mintPK: PublicKey,
-): Promise<ClientResponse<MintInfo>> {
-  const response = new ResponseFactory({} as MintInfo);
+): Promise<ClientResponse<Mint>> {
+  const response = new ResponseFactory({} as Mint);
 
   const provider = program.provider as AnchorProvider;
-  const wallet = provider.wallet as NodeWallet;
-  const mint = new Token(
-    program.provider.connection,
-    mintPK,
-    TOKEN_PROGRAM_ID,
-    wallet.payer,
-  );
-
   try {
-    const mintInfo = await mint.getMintInfo();
+    const mintInfo = await getMint(provider.connection, mintPK);
     response.addResponseData(mintInfo);
   } catch (e) {
     response.addError(e);
