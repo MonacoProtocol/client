@@ -12,6 +12,7 @@
       "allowSyntheticDefaultImports": true,
       "baseUrl": "src",
       "downlevelIteration": true,
+      "skipLibCheck": true
     },
     "include": ["./src/", "./types/"]
   }
