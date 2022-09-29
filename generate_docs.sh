@@ -10,6 +10,7 @@ declare -a endpoints=(
     "create_order"
     "market_matching_pools"
     "market_outcomes"
+    "market_outcome_query"
     "market_position"
     "market_prices"
     "market_query"
